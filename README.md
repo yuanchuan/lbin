@@ -6,7 +6,7 @@ Everytime I want to make a new command-line tool to be executable, I have to rep
 [sudo] chmod +x bin/mytool
 [sudo] ln -s path/to/your/tool/bin/mytool /usr/local/bin/mytool
 ```
-So verbose. So I have build this small tool to combine them into just one command and in a more convenient way:  
+So verbose. So I built this small tool to combine them into just one command and in a more convenient way:  
 
 ```bash
 $ [sudo] lbin bin/mytool 
