@@ -1,0 +1,27 @@
+#!/bin/sh
+
+command=$(basename $0)
+
+# Help info
+if [ -z $1 ]; then 
+  echo "Usage: $command <origin> [link]"; 
+  exit 1;
+fi
+
+origin=$(readlink -f $1)
+target=/usr/local/bin/${2:-$(basename $1)}
+ 
+# Expose accessing error in local language.
+if [ ! -f $origin ]; then
+  msg=$(ls $1 2>&1)
+  echo $msg | sed -r 's/^ls/'$command'/'
+  exit 1;
+fi 
+
+# Make sure the original file to be executable.
+if [ ! -x $origin ]; then
+  chmod +x $origin;
+fi
+
+ln -s $origin $target 
+  
