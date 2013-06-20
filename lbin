@@ -1,27 +1,51 @@
 #!/bin/sh
 
 command=$(basename $0)
+origin=$(readlink -f $1)
+target=/usr/local/bin/${2:-$(basename $1)}
 
-# Help info
+# Execute command with given arguments sequence as a whole.
+# and catch errors.
+#
+# $1      - the command
+# $2~$@   - the arguments
+run() {
+  local sequence=""
+  
+  # Join commands
+  for x in $@; do
+    sequence="$sequence $x"
+  done
+
+  # Run the command silently
+  local msg="$($sequence 2>&1)"
+
+  # Assumming the output is an error message.
+  # Replace its originial command name in the message.
+  if [ ! -z "$msg" ]; then
+    echo $msg | sed -r 's/^'$1'/'$command'/'
+    exit 1; 
+  fi   
+}
+
+# Show help
 if [ -z $1 ]; then 
   echo "Usage: $command <origin> [link]"; 
   exit 1;
 fi
 
-origin=$(readlink -f $1)
-target=/usr/local/bin/${2:-$(basename $1)}
- 
-# Expose accessing error in local language.
+# Handling non-existing file.
 if [ ! -f $origin ]; then
-  msg=$(ls $1 2>&1)
-  echo $msg | sed -r 's/^ls/'$command'/'
-  exit 1;
+  run ls $1
 fi 
+
+# Create soft link into bin with the original file. 
+run ln -s $origin $target 
 
 # Make sure the original file to be executable.
 if [ ! -x $origin ]; then
-  chmod +x $origin;
-fi
+  run chmod +x $origin
+fi  
 
-ln -s $origin $target 
-  
+echo OK && exit 0;
+
