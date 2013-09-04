@@ -2,7 +2,7 @@
 
 # Show help
 if [ -z $1 ]; then 
-  echo "Usage: $command <origin> [link]"; 
+  echo "Usage: $command <origin> [alias]"; 
   exit 1;
 fi
  
