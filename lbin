@@ -1,8 +1,14 @@
 #!/bin/sh
 
+# Show help
+if [ -z $1 ]; then 
+  echo "Usage: $command <origin> [link]"; 
+  exit 1;
+fi
+ 
 command=$(basename $0)
 origin=$(readlink -f $1)
-target=/usr/local/bin/${2:-$(basename $1)}
+target=/usr/local/bin/${2:-$(basename $1)} 
 
 # Execute command with given arguments sequence as a whole.
 # and catch errors.
@@ -27,13 +33,7 @@ run() {
     exit 1; 
   fi   
 }
-
-# Show help
-if [ -z $1 ]; then 
-  echo "Usage: $command <origin> [link]"; 
-  exit 1;
-fi
-
+ 
 # Handling non-existing file.
 if [ ! -f $origin ]; then
   run ls $1
