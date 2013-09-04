@@ -1,12 +1,12 @@
 #lbin
 
-Everytime I want to make a new command-line tool to be executable, I have to repeat several steps to it like the following: 
+Whenever to make a new command-line tool executable, I have to repeat several steps to it like the following: 
 
 ```bash
 [sudo] chmod +x bin/mytool
 [sudo] ln -s path/to/my/tool/bin/mytool /usr/local/bin/mytool
 ```
-So verbose. So I built this small tool to combine them into just one command and in a more convenient way:  
+So verbose so that I built this small tool to combine them into just one command and in a more convenient way:  
 
 ```bash
 $ [sudo] lbin bin/mytool 
